@@ -219,7 +219,9 @@ app.post('/api/predict-image',
     if (!req.file) return res.status(400).json({ error: "No image. Use field name 'file'." });
     const imgPath = req.file.path;
     // Mock mode: return a deterministic demo response without invoking Python
-    if (MOCK_PREDICTIONS) {
+    // Allow per-request mock override: ?mock=1
+    const perRequestMock = req.query && (req.query.mock === '1' || req.query.mock === 'true');
+    if (MOCK_PREDICTIONS || perRequestMock) {
       deleteFile(imgPath);
       const mock = {
         rejected: false,
@@ -249,7 +251,8 @@ app.post('/api/predict-image',
 app.post('/api/variety-predict', upload.single('image'), (req, res) => {
   if (!req.file) return res.status(400).json({ error: 'No image uploaded.' });
   const imgPath = req.file.path;
-  if (MOCK_PREDICTIONS) {
+  const perRequestMock = req.query && (req.query.mock === '1' || req.query.mock === 'true');
+  if (MOCK_PREDICTIONS || perRequestMock) {
     deleteFile(imgPath);
     const mock = {
       accepted: true,

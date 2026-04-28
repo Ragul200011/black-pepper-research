@@ -17,9 +17,8 @@ import { WEATHER_URL } from '../config/api';
 import { C, SHADOW } from '../components/theme';
 import BottomNav from '../components/BottomNav';
 
-
 // Only import MapView on native (avoids web crash)
-let MapView, Marker, Callout;
+let MapView, Marker, Callout, Circle;
 if (Platform.OS !== 'web') {
   const maps = require('react-native-maps');
   MapView = maps.default;
@@ -79,15 +78,7 @@ const FARMS = [
   },
 ];
 
-function haversine(lat1, lon1, lat2, lon2) {
-  const R = 6371,
-    dLat = ((lat2 - lat1) * Math.PI) / 180,
-    dLon = ((lon2 - lon1) * Math.PI) / 180;
-  const a =
-    Math.sin(dLat / 2) ** 2 +
-    Math.cos((lat1 * Math.PI) / 180) * Math.cos((lat2 * Math.PI) / 180) * Math.sin(dLon / 2) ** 2;
-  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-}
+// haversine distance removed (unused) — reintroduce if needed
 
 function FarmRow({ farm, onPress, onFertilizer }) {
   const healthy = farm.status === 'healthy';

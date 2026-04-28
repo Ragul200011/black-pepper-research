@@ -16,7 +16,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFocusEffect } from '@react-navigation/native';
 import { C, SHADOW } from '../components/theme';
 
-
 const DISEASE_COLORS = { healthy: '#2E7D32', leaf_blight: '#C62828', slow_wilt: '#E65100' };
 const VARIETY_COLORS = { Butawerala: '#2E7D32', Dingirala: '#1565C0', Kohukuburerala: '#6A1B9A' };
 // FARMS constant removed (unused) — sample farm lists are in the UI where needed
