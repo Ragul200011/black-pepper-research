@@ -1,0 +1,15 @@
+version: '3.8'
+services:
+  backend-inference:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.inference
+    ports:
+      - "5001:5001"
+    environment:
+      - NODE_ENV=production
+      - MOCK_PREDICTIONS=false
+    volumes:
+      - ./backend/uploads:/app/uploads
+      - ./backend/models:/app/models:ro
+    restart: unless-stopped

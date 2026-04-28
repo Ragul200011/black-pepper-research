@@ -7,7 +7,7 @@
 //  • Edit profile name
 //  • Sign Out button
 // ─────────────────────────────────────────────────────────────────────────────
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import {
   View,
   Text,

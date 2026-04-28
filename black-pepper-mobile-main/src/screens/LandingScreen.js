@@ -8,7 +8,6 @@ import {
   ScrollView,
   Animated,
   StatusBar,
-  Dimensions,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -17,7 +16,7 @@ import { useSelector } from 'react-redux';
 import { selectCurrentUser } from '../redux/slices/userSlice';
 import { C, SHADOW } from '../components/theme';
 
-const { width } = Dimensions.get('window');
+// window width not required here; remove to satisfy lint
 
 const MODULES = [
   {

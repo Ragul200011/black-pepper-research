@@ -18,13 +18,12 @@ import { C, SHADOW } from '../components/theme';
 import BottomNav from '../components/BottomNav';
 
 // Only import MapView on native (avoids web crash)
-let MapView, Marker, Callout, Circle;
+let MapView, Marker, Callout;
 if (Platform.OS !== 'web') {
   const maps = require('react-native-maps');
   MapView = maps.default;
   Marker = maps.Marker;
   Callout = maps.Callout;
-  Circle = maps.Circle;
 }
 
 const FARMS = [

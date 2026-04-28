@@ -11,7 +11,6 @@ import {
   View,
   Text,
   StyleSheet,
-  FlatList,
   TouchableOpacity,
   Dimensions,
   Animated,

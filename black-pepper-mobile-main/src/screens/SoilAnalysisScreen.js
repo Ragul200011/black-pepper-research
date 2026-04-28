@@ -3,20 +3,8 @@
 // Fix 2: MetricCard wrapped in React.memo (stops animations re-running every second)
 // Fix 3: Minor animation deps warning fixed
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  TouchableOpacity,
-  ActivityIndicator,
-  Alert,
-  Animated,
-  RefreshControl,
-  Platform,
-} from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Alert, Animated, RefreshControl } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Ionicons } from '@expo/vector-icons';
 import axios from 'axios';
 import { C, SHADOW } from '../components/theme';
 import {
