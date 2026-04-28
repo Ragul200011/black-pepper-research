@@ -18,7 +18,14 @@ const MOCK_PREDICTIONS = (process.env.MOCK_PREDICTIONS === 'true' || process.env
 // ── Detect Python once at startup ─────────────────────────────────────────────
 let PYTHON_CMD = 'python3';
 try { execSync('python --version', { stdio:'ignore' }); PYTHON_CMD = 'python'; } catch {}
-console.log(`🐍 Python: ${PYTHON_CMD}`);
+const DEBUG = process.env.DEBUG === '1' || process.env.DEBUG === 'true' || process.env.NODE_ENV !== 'production';
+const logger = {
+  info: (...args) => { if (DEBUG) console.log(...args); },
+  debug: (...args) => { if (DEBUG) console.debug(...args); },
+  warn: (...args) => console.warn(...args),
+  error: (...args) => console.error(...args),
+};
+logger.info(`🐍 Python: ${PYTHON_CMD}`);
 
 // ── Middleware ─────────────────────────────────────────────────────────────────
 app.use(cors());
@@ -213,7 +220,7 @@ app.get('/api/fertilizer', (req, res) => {
 
 // ── Disease Image Prediction ───────────────────────────────────────────────────
 app.post('/api/predict-image',
-  (req, res, next) => { console.log('Image upload received'); next(); },
+  (req, res, next) => { logger.debug('Image upload received'); next(); },
   upload.single('file'),
   (req, res) => {
     if (!req.file) return res.status(400).json({ error: "No image. Use field name 'file'." });
@@ -281,6 +288,6 @@ app.use((err, req, res, next) => {
 
 // ── Start ─────────────────────────────────────────────────────────────────────
 app.listen(PORT, '0.0.0.0', () => {
-  console.log(`\n🌱 Smart Black Pepper Guardian  →  http://localhost:${PORT}`);
-  console.log(`Routes: soil-analysis · weather · fertilizer · predict-image · variety-predict · auth\n`);
+  logger.info(`\n🌱 Smart Black Pepper Guardian  →  http://localhost:${PORT}`);
+  logger.info(`Routes: soil-analysis · weather · fertilizer · predict-image · variety-predict · auth\n`);
 });

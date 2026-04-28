@@ -59,7 +59,7 @@ export function StyledInput({ iconName, error, rightElement, style, ...props }) 
   return (
     <>
       {iconName && (
-        <View style={{ marginRight: 10 }}>
+        <View style={inp.iconWrap}>
           <Ionicons name={iconName} size={18} color={error ? C.error : C.hint} />
         </View>
       )}
@@ -70,6 +70,7 @@ export function StyledInput({ iconName, error, rightElement, style, ...props }) 
 }
 const inp = StyleSheet.create({
   input: { flex: 1, fontSize: 15, color: C.text, paddingVertical: 0 },
+  iconWrap: { marginRight: 10 },
 });
 
 // ── PrimaryButton ──────────────────────────────────────────────────────────

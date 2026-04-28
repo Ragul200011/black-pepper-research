@@ -1,0 +1,47 @@
+name: CI — Build & Smoke Test
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up QEMU (for multi-arch Docker)
+        uses: docker/setup-qemu-action@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Build backend inference image
+        working-directory: ./backend
+        run: |
+          docker build -f Dockerfile.inference -t black-pepper-backend-inference:ci .
+
+      - name: Run backend container (mock)
+        run: |
+          docker run -d --name be-ci -p 5001:5001 -e MOCK_PREDICTIONS=true black-pepper-backend-inference:ci
+          sleep 4
+
+      - name: Smoke test endpoints
+        run: |
+          echo 'Health:'; curl -sS http://localhost:5001/health
+          echo '\nFertilizer:'; curl -sS "http://localhost:5001/api/fertilizer?n=10&p=10&k=10&ph=6"
+          echo '\nPredict-image mock:'; curl -sS -X POST "http://localhost:5001/api/predict-image?mock=1" -F "file=@backend/uploads/sample.png"
+
+      - name: Publish image to Docker Hub (optional)
+        if: github.ref == 'refs/heads/main' && secrets.DOCKERHUB_USERNAME != ''
+        run: |
+          echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+          docker tag black-pepper-backend-inference:ci ${{ secrets.DOCKERHUB_USERNAME }}/black-pepper-backend-inference:latest
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/black-pepper-backend-inference:latest
+
+      - name: Stop container
+        run: |
+          docker rm -f be-ci || true
