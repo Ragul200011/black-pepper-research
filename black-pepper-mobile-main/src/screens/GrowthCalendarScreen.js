@@ -112,6 +112,7 @@ export default function GrowthCalendarScreen({ navigation }) {
       await saveEvents(updated);
     };
     if (Platform.OS === 'web') {
+      // eslint-disable-next-line no-alert
       if (window.confirm('Delete this event?')) doDelete();
       return;
     }

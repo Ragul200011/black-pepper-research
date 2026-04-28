@@ -96,7 +96,7 @@ export default function AppNavigator() {
               canGoBack ? <BackButton onPress={() => navigation.goBack()} /> : null,
             headerLeftContainerStyle: { paddingLeft: 10 },
             headerTitleAlign: 'left',
-            // eslint-disable-next-line react/no-unstable-nested-components
+
             headerTitle: ({ children }) => (
               <HeaderTitle title={children ?? route.name} screenName={route.name} />
             ),

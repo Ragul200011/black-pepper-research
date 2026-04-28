@@ -152,7 +152,7 @@ export default function SensorTrendScreen({ navigation }) {
     fetchData(period);
   }, [period, fetchData]);
 
-  const labels = formatLabels(feeds, period);
+  // labels intentionally unused — using displayLabels per-chart below
 
   return (
     <ScrollView style={s.root} showsVerticalScrollIndicator={false}>

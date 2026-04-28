@@ -80,6 +80,7 @@ export default function ProfileScreen({ navigation }) {
       navigation.replace('Landing');
     };
     if (Platform.OS === 'web') {
+      // eslint-disable-next-line no-alert
       if (window.confirm('Sign out of your account?')) doSignOut();
       return;
     }
