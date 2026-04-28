@@ -30,11 +30,15 @@ function postMultipart(url, field, filePath) {
 
 (async () => {
   try {
-    console.log('Health ->', await get('http://localhost:5001/health'));
-    console.log('Fertilizer ->', await get('http://localhost:5001/api/fertilizer?n=10&p=10&k=10&ph=6'));
     const img = path.join(__dirname, 'uploads', 'sample.png');
     if (fs.existsSync(img)) {
-      console.log('Predict-image mock ->', await postMultipart('http://localhost:5001/api/predict-image?mock=1', 'file', img));
+      // Print concise smoke results
+      const h = await get('http://localhost:5001/health');
+      const f = await get('http://localhost:5001/api/fertilizer?n=10&p=10&k=10&ph=6');
+      const p = await postMultipart('http://localhost:5001/api/predict-image?mock=1', 'file', img);
+      console.log('SMOKE health status:', h.status);
+      console.log('SMOKE fertilizer status:', f.status);
+      console.log('SMOKE predict status:', p.status);
     } else {
       console.warn('Sample image not found:', img);
     }
